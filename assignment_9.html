@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>IT-130: Assignment #9</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet"
+          href="assignment_9_styles_.css">
+</head>
+<body>
+  <header class="top-half">
+    <h1>Cruise Reservation Page</h1>
+    <img style="width: 300px; 
+                height:300px;"
+             src="cruise_ship.jpg" alt="Picture of big cruise ship at sunset">
+  </header>
+  <main class="bottom-half">
+    <form id="userInfo">
+        <p><label for="txtName" class="emphasize">Name:</label>
+            <input type="text" id="txtName"></p>
+        
+        <p><label for="txtEmail" class="emphasize">Email:</label>
+            <input type="text" id="txtEmail"></p>
+       
+        <p><label for="selCruiseDays" class="emphasize">
+              Which cruise would you like?</label>
+            <select id="selCruiseDays">
+                <option value="7">7 Days ($2,100 per person)</option>
+                <option value="10">10 Days ($2,800 per person)</option>
+                <option value="14">14 Days ($3,500 per person)</option>
+            </select></p>
+        
+        <p><label for="txtPeopleNumb" class="emphasize">
+              How many people (max 4 per reservation)?:</label>
+                <input type="text" id="txtPeopleNumb"></p>
+        
+        <p><label class="emphasize">View Type:</label><br>
+            <label for="radBalcRoom">﹡Balcony Room ($100 extra per day)</label>
+                <input type="radio" name="roomType" 
+                       id="radBalcRoom" value="100"><br>
+            <label for="radVirtRoom">﹡Virtual Balcony View (No extra fee)</label>
+                <input type="radio" name="roomType" 
+                       id="radVirtRoom" value="0"
+                       checked="checked"></p>
+        
+        <p><label class="emphasize">Meal Plan:</label><br>
+            <label for="chkStandard">Standard (No extra charge per person)</label>
+                <input type="checkbox" id="chkStandard" checked="checked"><br>
+            <label for="chkDeluxe">Deluxe ($200 extra per person)</label>
+                <input type="checkbox" id="chkDeluxe"><br>
+            <label for="chkGourmet">Gourmet ($300 extra per person)</label>
+                <input type="checkbox" id="chkGourmet"></p>
+        
+        <p><button type="button" onclick="cruiseSummary()" 
+                   style="font-weight:bold; font-size:140%;">
+            Submit Reservation</button></p>
+    </form>
+
+<div id="results" class="response-format">
+    </div> <!-- end of results div -->
+   
+      <script>
+        function cruiseSummary()
+        {
+            var name = document.getElementById("txtName").value;
+            var email = document.getElementById("txtEmail").value;
+            var cruiseDays = document.getElementById("selCruiseDays").value;
+            cruiseDays = parseInt(cruiseDays); 
+            //the value of the days will later be multiplied 
+            //by the type of room
+            var pplNumb = document.getElementById("txtPeopleNumb").value;
+            pplNumb = parseInt(pplNumb);
+            //the number of people will determine the total cost
+            var cost = 0;
+            var resultsString = "Thank you, " + name + 
+              " for your interest in this trip!";
+            cost = cruiseDays;
+            //the value of cruiseDays needs to equal the 
+            //cost or else the if/else in order for everything
+            //to connect properly
+            var roomType;
+            var meal;
+            var summary = "You chose: <br>" + "A cruise of " +
+                cruiseDays + " days, " + "for " + pplNumb + 
+                " people, ";
+            
+            if (cruiseDays == "7")
+            {
+                cost = 2100 * pplNumb;
+            }
+            else if (cruiseDays == "10")
+            {
+                cost = 2800 * pplNumb;
+            }
+            else if (cruiseDays == "14")
+            {
+                cost = 3500 * pplNumb;
+            }
+            //first the cruise total without any additions is calculated
+            
+            if (document.getElementById("radVirtRoom").checked)
+            {
+                roomCost = document.getElementById("radVirtRoom").value;
+            }
+            else if (document.getElementById("radBalcRoom").checked)
+            {
+                roomCost = document.getElementById("radBalcRoom").value;
+            }
+            roomCost = parseInt(roomCost);
+            //the value of the radio buttons are pulled and turned 
+            //into usable digits
+            roomCost = roomCost * cruiseDays;
+            cost = roomCost + cost;
+            //Now the cruise days' total has been added with the client's
+            //choice of room 
+            
+            if (roomCost >= 100)
+            {
+                roomType = "Balcony";
+            }
+            else
+            {
+                roomType = "Virtual Balcony";
+            }
+            //this if/else above is needed to tell the client which 
+            //room they submitted to be reserved
+            
+            if (document.getElementById("chkStandard").checked)
+            {
+                mealCharge = 0;
+            }
+            else if (document.getElementById("chkDeluxe").checked)
+            {
+                mealCharge= 200;
+            }
+            else if (document.getElementById("chkGourmet").checked)
+            {
+                mealCharge = 300;
+            }
+            meal = mealCharge * pplNumb
+            cost = cost + meal
+            //the selected meal plan price has now been added to the final cost
+            
+            if (mealCharge == 0)
+            {
+                mealPlan = "Standard Meal Plan";
+            }
+            else if (mealCharge == 200)
+            {
+                mealPlan = "Deluxe Meal Plan";
+            }
+            else if (mealCharge == 300)
+            {
+                mealPlan = "Gourmet Meal Plan";
+            }
+            //this if/else if tells the client which meal plan they chose
+            
+            summary = summary + "a room with a " + roomType +
+                    ", and a " + mealPlan + ".";
+            //This summary is the second half to its other part by the variables.
+            //It basically gives the client a summary of their options.
+            
+            resultsString = resultsString + 
+                " Based on your request, your estimated total is: $" 
+                + cost + ".<br>" + summary;
+            //this resultsString thanks the customer
+            
+            document.getElementById("results").innerHTML = resultsString;
+        }
+      </script>
+    </main>
+</body>
+</html>
+<!-- Of the four trip options: cruise length, view type, number of people, and meal plan, I would modify the web design of the number of people and the meal plan options. That is because it is better to limit free text entry whenever possible because for one, if left a text box, people can hack the web-page. The meal plan web-design should also be changed because options should be logical  (only one meal plan should be chosen). Therefore, both the number of people and meal plan option should be changed to either radio or select buttons. -->

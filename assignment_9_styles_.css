@@ -1,0 +1,24 @@
+.emphasize
+    {
+        font-weight:bold;
+    }
+.top-half
+    {
+        border: 5px dashed #5e6737;
+        background-color:#e2b659;
+        font-family:Copperplate;
+        text-align: center;
+    }
+.bottom-half
+    {
+        border: 5px dotted #5e6737;
+        background-color:#a2e39a;
+        font-family: Verdana;
+    }
+
+.response-format
+    {
+        background-color:#8fc3ea;
+        text-align:center;
+        font-weight:bold;
+    }
